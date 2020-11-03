@@ -1,0 +1,233 @@
+<!-- The form to save a new srpa user -->
+<div class="mt-4">
+    <div class="row d-flex justify-content-around">
+        <div class="col-md-5 col-sm-6 col-xs-12">
+            
+            <div class="card bg-white bg-border-green mb-4">
+                <h4 class="card-title bg-green bg-bb-green text-black text-center pt-2 pb-2">
+                    Formulario de registro
+                </h4>
+                
+                <div class="card-body">
+                    <!-- Form -->
+                    <form #usuario_srpa_form="ngForm" class="d-flex flex-column justify-content-around">
+                        
+                        <!-- Handle the selector image profile -->
+                        <div class="form-group">
+                            <div *ngIf="show_image then image_viewer else image_to_choose"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" name="identification" class="form-control"
+                                [(ngModel)]="usuario_srpa_selected.identification" placeholder="N° Identificación">
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" name="first_name" class="form-control"
+                                [(ngModel)]="usuario_srpa_selected.first_name" placeholder="Nombres">
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" name="last_name" class="form-control"
+                                [(ngModel)]="usuario_srpa_selected.last_name" placeholder="Apellidos">
+                        </div>
+                        
+                        <!-- Component datepicker used as date-born -->
+                        <div class="form-group">
+                            <app-datepicker 
+                                [placeholder_]="'Fecha de Nacimiento'" 
+                                #datepicker
+                                [(ngModel)]="usuario_srpa_selected.date_born"></app-datepicker>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" name="address" class="form-control"
+                                [(ngModel)]="usuario_srpa_selected.address" placeholder="Dirección">
+                        </div>
+                        
+                        <div class="text-right">
+                            <button (click)="add_srpa_user(usuario_srpa_form)"
+                                class="btn bg-green btn-hover-green text-white mr-2">Guardar <i
+                                    class="oi oi-check"></i></button>
+                            <button class="btn bg-red btn-hover-red text-white"
+                                (click)="clean_fields(usuario_srpa_form)">Cancelar <i class="oi oi-x"></i></button>
+                        </div>
+                    
+                    </form>
+                
+                </div>
+            
+            </div>
+        </div>
+        
+        
+        <div class="col-md-7 col-sm-6 col-xs-12">
+            <table class="table table-hover bg-border-green bg-bb-green">
+                
+                <thead class="text-center">
+                    
+                    <tr class="bg-green text-black">
+                        <th scope="col">N° Identificación</th>
+                        <th scope="col">Nombre Completo</th>
+                        <th scope="col">Operaciones</th>
+                    </tr>
+                
+                </thead>
+                
+                <tbody class="text-center bg-white" *ngIf="usuarios_srpa.length > 0; else not_usuarios_srpa">
+                    
+                    <tr *ngFor="let users of usuarios_srpa" class="bg-bb-green">
+                        
+                        <th scope="row">{{users.identification}}</th>
+                        <td>{{users.first_name + ' ' + users.last_name}}</td>
+                        <td class="d-flex justify-content-around">
+
+                            <button class="btn btn-outline-warning btn-sm" data-toggle="modal"
+                                data-target="#staticBackdrop" (click)="getOne_srpa_user(users._id)">
+                                <span class="oi oi-eye" title="Ver" aria-hidden="true"></span>
+                            </button>
+                            
+                            <button class="btn btn-outline-primary btn-sm" [routerLink]="['/srpa-user',users._id]">
+                                <i class="oi oi-pencil" title="Editar" aria-hidden="true"></i>
+                            </button>
+                            
+                            <button class="btn btn-outline-danger btn-sm" (click)="remove_srpa_user(users._id)">
+                                <i class="oi oi-trash" title="Borrar" aria-hidden="true"></i>
+                            </button>
+                        
+                        </td>
+                    
+                    </tr>
+                
+                </tbody>
+            
+            </table>
+        
+        </div>
+    
+    </div>
+
+</div>
+
+<!-- Component for launch errors -->
+<app-error-message #error_message_tag [error-message]="error_message"></app-error-message>
+
+
+<!-- To show if there is any srpa user register on BD -->
+<ng-template #not_usuarios_srpa>
+    <tr class="bg-white">
+        <td colspan="3">
+            <div class="containter text-center">
+                <h6>No hay ningún registro.</h6>
+            </div>
+        </td>
+    </tr>
+</ng-template>
+
+<!-- Templates that control the image input control -->
+
+<!-- To Hide the input file and use a normal button -->
+<ng-template #image_to_choose>
+
+    <div class="container d-flex justify-content-around">
+        <input type="file" name="photo_path" class="d-none" accept="image/*" #image_file
+            (change)="onSelectedFile($event.target.files)">
+        <button type="button" class="text-white bg-profile"
+            (click)="image_file.click()"> <!-- <i class="oi oi-camera-slr"></i> --> </button>
+    </div>
+
+</ng-template>
+
+<!-- Render the image selected via input file -->
+<ng-template #image_viewer>
+
+    <div class="d-flex justify-content-around align-items-center">
+        <img [src]="src_image" alt="" class="card-img-top text-center img-size">
+        <div>
+            Archivo: {{ selected_file.name }}
+            <br>
+            Tamaño: {{ selected_file.size }}
+            <br>
+            <a class="btn btn-danger" (click)="delete_selection()">
+                <i class="oi oi-trash"></i></a>
+        </div>
+    </div>
+</ng-template>
+
+
+<!-- To show the personal data when click on view srpa user icon -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    
+    <div class="modal-dialog">
+        
+        <div class="modal-content border-radius">
+            
+            <div class="modal-header bg-green text-white">
+                
+                <h5 class="modal-title" id="staticBackdropLabel">Datos Personales</h5>
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            
+            </div>
+            
+            <div class="modal-body">
+                
+                <div *ngIf="usuario_srpa_selected">
+                    
+                    <table class="table">
+                        
+                        <tr>
+                            <td colspan="2">
+                                
+                                <div class="container align-center-content">
+                                    <img [src]="usuario_srpa_selected.photo_path"
+                                        class="card-img-top w-25 align-center-item" alt="">
+                                </div>
+                            
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                N° Identificación:
+                            </th>
+                            <td>{{usuario_srpa_selected.identification}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Nombre Completo:
+                            </th>
+                            <td>{{usuario_srpa_selected.first_name + ' ' + usuario_srpa_selected.last_name}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Fecha de Nacimiento:
+                            </th>
+                            <td>{{usuario_srpa_selected.date_born}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Dirección
+                            </th>
+                            <td>{{usuario_srpa_selected.address}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                
+                <button type="button" class="btn bg-green btn-hover-green text-white"
+                    data-dismiss="modal" (click)="clean_fields(usuario_srpa_form)">Volver</button>
+            
+                </div>
+        
+        </div>
+    
+    </div>
+
+</div>

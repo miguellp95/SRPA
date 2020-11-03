@@ -1,0 +1,53 @@
+.cursor-pointer{
+    cursor: pointer;
+}
+
+table > thead {
+    font-size: 1rem;
+}
+
+table > tbody {
+    font-size: 0.9rem;
+}
+
+.align-center-content{
+    display: flex;
+    justify-content: center;
+}
+
+.align-center-item{
+    align-self: center;
+}
+
+.table-modal > tr > th {
+    width: 170px;
+    background-color: #2f8223;
+    color:#fff;
+}
+
+.border-radius{
+    border-radius: 10px;
+}
+
+.btn-hover-green:hover{
+    background-color: #bada55;
+}
+
+.btn-hover-red:hover{
+    background-color: #ff9e00;
+}
+
+.img-size{
+    width: 120px;
+    height: 150px;
+}
+
+.bg-profile{
+    background-image: url(../../../../assets/imgs/profile-icon.png);
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    
+}

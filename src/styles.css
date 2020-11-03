@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+.bg-green-1{
+    /* background-color : #ddff39; */ 
+    /* background-color: #ceefcf; */
+    background-color: #fff;
+}
+
+.text-black{
+    /* color: #343a40; */
+    color:white
+}
+
+.bg-green{
+    background-color: #2f8223;
+}
+
+.bg-red{
+    background-color: #bc0300;
+}
+
+.bg-white{
+    background-color: white;
+}
+
+.bg-border-green{
+    border : 1px solid #2f8223;
+}
+
+.bg-bb-green{
+    border-bottom: 1px solid #2f8223;
+}
+
+.top-fixed{
+    position: fixed;
+}
