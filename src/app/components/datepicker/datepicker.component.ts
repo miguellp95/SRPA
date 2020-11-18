@@ -13,12 +13,11 @@ interface IModel {
 })
 export class DatepickerComponent implements OnInit {
   
-  @Input() placeholder_ : string;
-  @Input() set_date : string;
+  @Input() placeholder_ : string; 
   @Input() minDate : IModel;
   @Input() maxDate : IModel;
 
-  model : IModel | {};
+  @Input() model : IModel | {};
 
   constructor() { }
 

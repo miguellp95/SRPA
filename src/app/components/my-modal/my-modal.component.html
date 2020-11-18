@@ -1,0 +1,28 @@
+<!-- Modal -->
+<div class="modal_" *ngIf="visible" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+
+    <div class="container mt-5">
+
+        <div class="modal-content border-radius">
+
+            <div class="modal-header bg-green text-white">
+
+                <h5 class="modal-title" id="staticBackdropLabel">{{title}}</h5>
+
+                <span aria-hidden="true" class="close" (click)="closeModal()"><i class="oi oi-x"></i></span>
+
+            </div>
+
+            <ng-content select=".modal-body">
+
+            </ng-content>
+
+            <ng-content select=".modal-footer">
+
+            </ng-content>
+
+        </div>
+
+    </div>
+
+</div>

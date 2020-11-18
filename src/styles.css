@@ -1,35 +1,59 @@
 /* You can add global styles to this file, and also import other style files */
-.bg-green-1{
-    /* background-color : #ddff39; */ 
-    /* background-color: #ceefcf; */
-    background-color: #fff;
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-.text-black{
-    /* color: #343a40; */
-    color:white
+.text-yellow {
+    color: yellow
 }
 
-.bg-green{
+.bg-green {
     background-color: #2f8223;
 }
 
-.bg-red{
+.bg-red {
     background-color: #bc0300;
 }
 
-.bg-white{
+.bg-white {
     background-color: white;
 }
 
-.bg-border-green{
-    border : 1px solid #2f8223;
+.bg-border-green {
+    border: 1px solid #2f8223;
 }
 
-.bg-bb-green{
+.bg-bb-green {
     border-bottom: 1px solid #2f8223;
 }
 
-.top-fixed{
+.btn-hover-green:hover {
+    background-color: #014110;
+}
+
+.btn-hover-red:hover {
+    background-color: #710303;
+}
+
+.top-fixed {
     position: fixed;
+}
+
+.trim-info {
+    max-width: 200px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 15px;
+    position: relative;
+}
+
+.title-module {
+    border-radius: 5px;
+    padding: 10px 0px;
 }

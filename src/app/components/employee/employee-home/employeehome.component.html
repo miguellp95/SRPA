@@ -1,0 +1,188 @@
+<h3 class="bg-green text-white mt-4 mb-4 text-center title-module">
+    Módulo Funcionarios de la Entidad</h3>
+<hr>
+<div class="row">
+    <div class="col">
+        <!-- Options -->
+        <div class="row">
+
+        </div>
+        <!-- Query all registers -->
+        <div class="row">
+            <div class="col">
+                <table class="table table-hover table-bordered capitalize">
+
+                    <thead class="text-center">
+
+                        <tr class="bg-green text-white">
+                            <th scope="col">N° Identificación</th>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Cargo</th>
+                            <th scope="col">Operaciones</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="text-center bg-white " *ngIf="employees.length > 0; else not_employees ">
+
+                        <tr *ngFor="let employee of employees" class="bg-bb-green" (click)="employee_selected = employee">
+
+                            <th scope="row">{{ employee.identification }}</th>
+                            <td>{{ employee.first_name + " " + employee.last_name }}</td>
+                            <td>{{ employee.charge }}</td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-outline-warning btn-sm mr-3" (click)="openModalView(employee._id)">
+                                        <i class="oi oi-eye" title="Ver" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm mr-3" (click)="openModalEdit(employee._id)">
+                                        <span class="oi oi-pencil" title="Editar" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm" (click)="deleteEmployee(employee._id)">
+                                        <i class="oi oi-trash" title="Borrar" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn bg-green text-white btn-hover-green" [routerLink]="['/employee/register']"> 
+                        Agregar Funcionario  <i class="oi oi-eject"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- To show if there is any employee is register on BD -->
+<ng-template #not_employees>
+    <tr class="bg-white">
+        <td colspan="4">
+            <div class="containter text-center">
+                <h6>No hay ningún registro.</h6>
+            </div>
+        </td>
+    </tr>
+</ng-template>
+
+<!-- Component for launch errors -->
+<app-error-message #error_message_tag></app-error-message>
+
+<!-- Component to Edit Personal data  of employees-->
+<app-my-modal [title]="'Actualizar Datos'" [visible]="modalEdit_visible" (close_modal)="closeModalEdit($event)" #modalEdit>
+
+    <div class="modal-body">
+        <div class="container">
+
+            <div class="" *ngIf="employee_selected">
+                <form #employee_update_form="ngForm">
+                    <div class="d-flex flex-wrap">
+
+                        <div class="form-group col-6">
+                            <label for="identification">N° de Identificación</label>
+                            <input type="text" [(ngModel)]="employee_selected.identification" id="identification" name="identification" class="form-control bg-border-green" placeholder="N° de Identificación">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="identification">Fecha de Nacimiento</label>
+                            <app-datepicker [model]="date_born_setted" (ngModel)="employee_selected.date_born" #datepicker [placeholder_]="'Fecha de Nacimiento'"></app-datepicker>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="identification">Nombres</label>
+                            <input type="text" [(ngModel)]="employee_selected.first_name" name="first_name" class="form-control bg-border-green" placeholder="Nombres">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="identification">Apellidos</label>
+                            <input type="text" [(ngModel)]="employee_selected.last_name" name="last_name" class="form-control bg-border-green" placeholder="Apellidos">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="identification">Correo Electrónico</label>
+                            <input type="email" [(ngModel)]="employee_selected.email" name="email" class="form-control bg-border-green" placeholder="Corre electrónico">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="identification">Teléfono</label>
+                            <input type="text" [(ngModel)]="employee_selected.phone_number" name="phone_number" class="form-control bg-border-green" placeholder="Teléfono o Celular">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="identification">Cargo / Profesión</label>
+                            <input type="text" [(ngModel)]="employee_selected.charge" name="charge" class="form-control bg-border-green" placeholder="Cargo">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="identification">Direción</label>
+                            <input type="text" [(ngModel)]="employee_selected.address" name="address" class="form-control bg-border-green" placeholder="Dirección de residencia">
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <div class="container" *ngIf="employee_selected">
+            <div class="d-flex justify-content-end col-12">
+                <button type="button" class="btn bg-green btn-hover-green btn-md text-white mr-2" (click)="updateEmployee(employee_selected._id,employee_update_form)">
+                    Guardar Cambios <i class="oi oi-check"></i>
+                </button>
+                <button type="button" class="btn bg-red btn-hover-red btn-md text-white" (click)="modalEdit.closeModal()">
+                    Cancelar <i class="oi oi-x"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</app-my-modal>
+
+
+<!-- Modal View Data Employees -->
+<app-my-modal [title]="'Datos del Funcionario'" [visible]="modalView_visible" (close_modal)="closeModalView($event)" #modalView>
+    <div class="modal-body mt-2">
+        <div *ngIf="employee_selected">
+            <div class="container">
+                <table class="table col-10 mx-auto data-table">
+                    <tbody>
+                        <tr>
+                            <th scope="row"> Nombre</th>
+                            <td>{{employee_selected.first_name}} {{employee_selected.last_name}}</td>
+                            <td><br></td>
+                            <th scope="row"> N° de Identificación</th>
+                            <td>{{employee_selected.identification}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"> Fecha de Nacimiento</th>
+                            <td>{{employee_selected.date_born}}</td>
+                            <td><br>
+                            </td>
+                            <th scope="row">Telefono</th>
+                            <td>{{employee_selected.phone_number}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"> Email</th>
+                            <td>{{employee_selected.email}}</td>
+                            <td></td>
+                            <th scope="row"> Cargo / Profesión</th>
+                            <td>{{employee_selected.charge}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"> Dirección de residencia</th>
+                            <td colspan="4">{{employee_selected.address}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn bg-green btn-hover-green btn-md text-white" (click)="modalView.closeModal()">
+            Volver <i class="oi oi-check"></i>
+        </button>
+    </div>
+</app-my-modal>

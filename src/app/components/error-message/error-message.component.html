@@ -1,10 +1,11 @@
 <modal #modal_error>
-  <modal-header>
-  </modal-header>
-  <modal-content>
-    {{ message_error }}
-  </modal-content>
-  <modal-footer>
-    <button type="button" (click)="closeModal()" class="btn bg-green text-white" #btn_footer_modal >Aceptar</button>
-  </modal-footer>
+    <modal-header>
+        {{ title }}
+    </modal-header>
+    <modal-content>
+        {{ message_error }}
+    </modal-content>
+    <modal-footer>
+        <button type="button" (click)="closeModal()" class="btn bg-green text-white" #btn_footer_modal>Aceptar</button>
+    </modal-footer>
 </modal>

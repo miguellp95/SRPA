@@ -54,8 +54,7 @@ export class SrpaUserService {
     fd.append("identification", data.identification);
     fd.append("date_born", data.date_born);
     fd.append("address", data.address); 
-    fd.append("photo", photo);
-    console.log("actualziando ", data);
+    fd.append("photo", photo); 
     return this.http.put(this.URI_API + '/srpa-user/' + id, fd);
   }
 }

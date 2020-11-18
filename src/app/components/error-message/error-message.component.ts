@@ -11,16 +11,18 @@ export class ErrorMessageComponent implements OnInit {
   @Input('error-message') message_error : string;
   @ViewChild('btn_footer_modal')  btn_footer_modal : HTMLInputElement;
   @ViewChild('modal_error') modal_error;
+
+  @Input() title:string = "";
+  
   private modalRef;
 
   constructor(private modalService: ModalManager) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
   }
 
   openModal(){
     this.modalRef = this.modalService.open(this.modal_error, this.config);
-    console.log("funciona");
   }
 
   closeModal(){
@@ -28,7 +30,7 @@ export class ErrorMessageComponent implements OnInit {
   }
 
   config = {
-    "title": "Error",
+    "title": this.title,
     "size": "md",
     "modalClass": "",
     "hideCloseButton": false,

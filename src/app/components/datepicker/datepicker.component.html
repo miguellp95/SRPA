@@ -1,23 +1,11 @@
-
 <div class="input-group">
-  
-  <input 
-    class="form-control" 
-    placeholder="{{placeholder_}}" 
-    name="dp"
-    [minDate]="minDate"
-    [maxDate]="maxDate" 
-    [(ngModel)]="model" 
-    ngbDatepicker 
-    #d="ngbDatepicker">
-  
-  <div class="input-group-append">
-    <button 
-      class="btn btn-outline-secondary calendar" 
-      (click)="d.toggle()" 
-      type="button">
+
+    <input class="form-control bg-border-green" placeholder="{{placeholder_}}" name="dp" [minDate]="minDate" [maxDate]="maxDate" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
         <i class="oi oi-calendar"></i>
       </button>
-  </div>
-  
+    </div>
+
 </div>

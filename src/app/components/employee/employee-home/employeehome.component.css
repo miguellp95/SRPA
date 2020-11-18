@@ -1,0 +1,17 @@
+.data-table th {
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+.data-table td {
+    font-size: 1.1rem;
+    font-style: oblique;
+}
+
+.data-table td::first-letter {
+    text-transform: capitalize;
+}
+
+.capitalize td::first-letter {
+    text-transform: capitalize;
+}

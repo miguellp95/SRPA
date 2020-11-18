@@ -58,7 +58,7 @@ export class SrpaUserDetailComponent implements OnInit {
           setTimeout(() => this.datepicker.setDate(this.parseDate_(res.date_born)));
           
         },
-        (error) => this.handlerError(error.error)
+        (error) => this.showMessage('Error', error.error)
       );
     }
   }
@@ -68,23 +68,18 @@ export class SrpaUserDetailComponent implements OnInit {
     this.usuario_srpa_selected = form.value; 
     this.usuario_srpa_selected.photo_path = this.src_image; 
     this.usuario_srpa_selected.date_born = this.getDate();
-    console.log("intentando actualizar")
+
     if(this.usuario_srpa_selected && this.usuario_srpa_selected.photo_path){
-      console.log("casi")
-      console.log(this.usuario_srpa_selected);
-      console.log(this.selected_file);
-      console.log(this.usuario_srpa_id);
       this.user_srpa_service.update(form.value, this.selected_file, this.usuario_srpa_id).subscribe(
         (res) => {
-          console.log("lo logro")
-          this.router.navigate(['/srpa-user']);
+          this.showMessage("Actualizacion exitosa.", "Los datos se actualizaron correctamente.");
         },
         (error) => {
-          this.handlerError(error.error);
+          this.showMessage('Error', error.error);
         }
       );
     } else {
-      this.handlerError("Debe llenar los campos obligatorios");
+      this.showMessage('Error en el formulario.',"Debe llenar los campos obligatorios");
     }
   }
 
@@ -115,8 +110,9 @@ export class SrpaUserDetailComponent implements OnInit {
     reader.readAsDataURL(this.selected_file);  
   } 
 
-  handlerError(error):void{
-    this.error_message = error;
+  showMessage(title:string, message:string):void{
+    this.error_message_tag.title = title;
+    this.error_message = message;
     this.error_message_tag.openModal();
   }
 
@@ -125,7 +121,7 @@ export class SrpaUserDetailComponent implements OnInit {
       const { year, month, day } = this.datepicker.getDate();
       return `${year}-${month}-${day}`;
     } catch (error) {
-      this.handlerError(error.error);
+      this.showMessage('Error', error.error);
     } 
   }
   

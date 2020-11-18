@@ -68,17 +68,15 @@ export class SrpaUserHomeComponent implements OnInit {
   }
 
   add_srpa_user(form: NgForm) {
-    
-    this.usuario_srpa_selected = form.value;    
+
+    this.usuario_srpa_selected = form.value;
     this.usuario_srpa_selected.photo_path = this.src_image;
     this.usuario_srpa_selected.date_born = this.getDate();
 
-    console.log(this.usuario_srpa_selected);
-    
-    if(this.usuario_srpa_selected && this.usuario_srpa_selected.photo_path){
-      console.log("pasa la prueba")
+    if(this.usuario_srpa_selected && this.usuario_srpa_selected.photo_path){ 
       this.user_srpa_service.post(form.value, this.selected_file).subscribe(
         (res) => {
+          this.showMessage("Guardado exitoso!", "El usuario SRPA ha sido creado exitosamente.");
           this.get_srpa_users();
           this.clean_fields(form);
         },
@@ -92,6 +90,7 @@ export class SrpaUserHomeComponent implements OnInit {
   remove_srpa_user(id: string): void {
     this.user_srpa_service.delete(id).subscribe(
       (res) => {
+        this.showMessage('Operación exitosa', "El item fue removido exitosamente");
         this.router.navigate(["/srpa-user", this.get_srpa_users()]);
       },
       (error) => {
@@ -123,7 +122,14 @@ export class SrpaUserHomeComponent implements OnInit {
   } 
 
   handlerError(error){
+    this.error_message_tag.title = "Error";
     this.error_message = error;
+    this.error_message_tag.openModal();
+  }
+
+  showMessage(title:string, message:string){
+    this.error_message_tag.title = title;
+    this.error_message = message;
     this.error_message_tag.openModal();
   }
 
