@@ -5,9 +5,9 @@ import { EmployeeService } from 'src/app/services/employee.service';
 
 import { ShowMessageComponent } from 'src/app/components/show-message/show-message.component';
 import { IEmployee } from 'src/app/interfaces/employee.interface'; 
-import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { DatepickerComponent } from '../../components/datepicker/datepicker.component';
 import { NgForm } from '@angular/forms';
-import { MyModalComponent } from '../my-modal/my-modal.component';
+import { MyModalComponent } from '../../components/my-modal/my-modal.component';
 
 @Component({
   selector: 'app-employee-home',

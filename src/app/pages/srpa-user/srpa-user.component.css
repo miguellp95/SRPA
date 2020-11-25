@@ -35,7 +35,7 @@ table>tbody {
 }
 
 .bg-profile {
-    background-image: url(../../../../assets/imgs/profile-icon.png);
+    background-image: url(../../../assets/imgs/profile-icon.png);
     width: 150px;
     height: 150px;
     background-size: cover;

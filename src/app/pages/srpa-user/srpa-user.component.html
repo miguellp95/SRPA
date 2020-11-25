@@ -25,7 +25,7 @@
                                     <span class="oi oi-eye" title="Ver" aria-hidden="true"></span>
                                 </button>
 
-                            <button class="btn btn-outline-primary btn-sm mr-3" [routerLink]="['/srpa-user',users._id]">
+                            <button class="btn btn-outline-primary btn-sm mr-3" (click)="open_modalEdit(users._id)">
                                     <i class="oi oi-pencil" title="Editar" aria-hidden="true"></i>
                                 </button>
 
@@ -246,6 +246,127 @@
             <button (click)="add_srpa_user(usuario_srpa_form)" class="btn bg-green btn-hover-green text-white mr-2">Guardar <i
                         class="oi oi-check"></i></button>
             <button class="btn bg-red btn-hover-red text-white mr-3" (click)="clean_fields(usuario_srpa_form)">Cancelar <i class="oi oi-x"></i></button>
+        </div>
+    </div>
+</app-my-modal>
+
+<app-my-modal #modalEdit [title]="'Actualizar Datos'" [visible]="modalEdit_visible" (close_modal)="close_modalEdit($event)">
+    <div class="modal-body">
+        <div *ngIf="usuario_srpa_selected">
+            <!-- Form -->
+            <form #user_edit_form="ngForm">
+
+                <div class="col-12">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="col-3">
+                            <!-- Handle the selector image profile -->
+                            <div class="container d-flex justify-content-center flex-wrap">
+                                <div class="col-12 align-self-center">
+                                    <input type="file" name="photo_path" class="d-none" accept="image/*" #image_file (change)="onSelectedFile($event.target.files)">
+                                    <img [src]="src_image || '../../../../assets/imgs/profile-icon.png' " alt=" " class="card-img-top text-center">
+                                </div>
+                                <div class="col-12 align-self-center">
+                                    <button *ngIf="!photo_selected" type="button" class="btn bg-green btn-hover-green text-white btn-md w-100 mt-3" (click)="image_file.click()">Cargar Foto<i class=" oi oi-camera-slr ml-3 "></i></button>
+                                    <button *ngIf="photo_selected" type="button " class="btn bg-red btn-hover-red text-white btn-md w-100 mt-3 " (click)="delete_selection() ">Cancelar<i class="oi oi-x ml-3 "></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex col-9 flex-wrap">
+
+                            <div class="form-group col-4">
+                                <input type="text" name="first_name" class="form-control bg-border-green" [(ngModel)]="usuario_srpa_selected.first_name" placeholder="Nombres">
+                            </div>
+
+                            <div class="form-group col-4">
+                                <input type="text" name="last_name" class="form-control bg-border-green" [(ngModel)]="usuario_srpa_selected.last_name" placeholder="Apellidos">
+                            </div>
+
+                            <div class="form-group col-4">
+                                <input type="text" name="identification" class="form-control bg-border-green" [(ngModel)]="usuario_srpa_selected.identification" placeholder="N° Identificación">
+                            </div>
+
+                            <!-- Component datepicker used as date-born -->
+                            <div class="form-group col-4">
+                                <app-datepicker [placeholder_]="'Fecha de Nacimiento'" #datepicker_edit [(ngModel)]="usuario_srpa_selected.date_born"></app-datepicker>
+                            </div>
+
+                            <div class="form-group col-4">
+                                <input type="text" name="age" class="form-control bg-border-green" [(ngModel)]="usuario_srpa_selected.age" placeholder="Edad">
+                            </div>
+
+                            <div class="form-group col-4">
+                                <input type="text" name="gender" class="form-control bg-border-green" [(ngModel)]="usuario_srpa_selected.gender" placeholder="Sexo">
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="text" name="scholar" [(ngModel)]="usuario_srpa_selected.scholar" class="form-control bg-border-green" placeholder="Escolaridad">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="text" name="occupation" [(ngModel)]="usuario_srpa_selected.occupation" class="form-control bg-border-green" placeholder="Ocupación">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="text" name="address" class="form-control bg-border-green" [(ngModel)]="usuario_srpa_selected.address" placeholder="Dirección">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="text" name="phone_number" [(ngModel)]="usuario_srpa_selected.phone_number" class="form-control bg-border-green" placeholder="Teléfono">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="text" name="parent_1" [(ngModel)]="usuario_srpa_selected.parent_1" class="form-control bg-border-green" placeholder="Referente Afectivo">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="text" name="parent_2" [(ngModel)]="usuario_srpa_selected.parent_2" class="form-control bg-border-green" placeholder="Referente Afectivo">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="text" name="health" [(ngModel)]="usuario_srpa_selected.health" class="form-control bg-border-green" placeholder="Salud">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="text" name="attention_mode" [(ngModel)]="usuario_srpa_selected.attention_mode" class="form-control bg-border-green" placeholder="Modalidad de atención">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <div class="text-right">
+            <button (click)="update_srpa_user(user_edit_form)" class="btn bg-green btn-hover-green text-white mr-2">
+                    Guardar
+                    <i class="oi oi-check"></i>
+            </button>
+
+            <button class="btn bg-red btn-hover-red text-white" (click)="clean_fields(user_edit_form)">
+                    Volver 
+                    <i class="oi oi-x"></i>
+                </button>
         </div>
     </div>
 </app-my-modal>

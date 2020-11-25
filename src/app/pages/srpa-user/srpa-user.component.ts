@@ -4,35 +4,55 @@ import { NgForm } from '@angular/forms';
 
 import { _srpa_user_ } from 'src/app/interfaces/srpa-user.interface';
 import { SrpaUserService } from 'src/app/services/srpa-user.service';
-import { ShowMessageComponent } from '../../show-message/show-message.component';
-import { DatepickerComponent } from '../../datepicker/datepicker.component';
-import { MyModalComponent } from '../../my-modal/my-modal.component';
+import { ShowMessageComponent } from '../../components/show-message/show-message.component';
+import { DatepickerComponent } from '../../components/datepicker/datepicker.component';
+import { MyModalComponent } from '../../components/my-modal/my-modal.component';
  
 @Component({
-  selector: 'app-srpa-user-home',
-  templateUrl: './srpa-user-home.component.html',
-  styleUrls: ['./srpa-user-home.component.css'],
+  selector: 'app-srpa-user',
+  templateUrl: './srpa-user.component.html',
+  styleUrls: ['./srpa-user.component.css'],
 })
-export class SrpaUserHomeComponent implements OnInit {
+export class SrpaUserComponent implements OnInit {
  
-  @ViewChild('modalRegister') modalRegister : MyModalComponent;
+  // Form register srpa user
   @ViewChild('usuario_srpa_form') srpa_user_form: NgForm;
+  @ViewChild('user_edit_form') user_edit_form: NgForm;
+  
+  // Show Message Modal
   @ViewChild('message') message_tag : ShowMessageComponent;
+  
+  // DatePicker Register
   @ViewChild('datepicker') datepicker : DatepickerComponent;
+  // DatePicker Edit
+  @ViewChild('datepicker_edit') datepicker_edit : DatepickerComponent;
 
+  // Edit Modal
+  @ViewChild('modalEdit') modalEdit : MyModalComponent;
+  // Register Modal
+  @ViewChild('modalRegister') modalRegister : MyModalComponent;
 
-  new_srpa_user : boolean = false;
+  // new_srpa_user : boolean = false
 
+  // Array of srpa users
   usuarios_srpa: _srpa_user_[];
+  // One srpa user
   usuario_srpa_selected: _srpa_user_; 
-   
+  // ID srpa user
+  usuario_srpa_id = "";
+  
+  
+  //To show image
   src_image:string = "";
   selected_file: File = null;
   photo_selected : boolean = false;
 
+  // Modals states
   modalView_visible : boolean  = false;
   modalRegister_visible : boolean = false;
+  modalEdit_visible : boolean = false;
 
+  // Show Message Modal configuration
   message : string;
   title_message : string;
 
@@ -60,7 +80,9 @@ export class SrpaUserHomeComponent implements OnInit {
       this.user_srpa_service.getOne(id).subscribe(
         (res) => {
           this.usuario_srpa_selected = res;
+          this.usuario_srpa_id = res._id;
           this.usuario_srpa_selected.photo_path = 'http://localhost:3000/' + this.usuario_srpa_selected.photo_path;
+          this.src_image = this.usuario_srpa_selected.photo_path;
         },
         (error) => this.handlerError(error.error)
       );
@@ -100,12 +122,32 @@ export class SrpaUserHomeComponent implements OnInit {
     );
   }
 
+  update_srpa_user(form : NgForm){
+
+    this.usuario_srpa_selected = form.value; 
+    this.usuario_srpa_selected.photo_path = this.src_image; 
+    this.usuario_srpa_selected.date_born = this.getDate();
+
+    if(this.usuario_srpa_selected && this.usuario_srpa_selected.photo_path){
+      this.user_srpa_service.update(form.value, this.selected_file, this.usuario_srpa_id).subscribe(
+        (res) => {
+          this.showMessage("Actualizacion exitosa.", "Los datos se actualizaron correctamente.");
+        },
+        (error) => {
+          this.showMessage('Error', error.error);
+        }
+      );
+    } else {
+      this.showMessage('Error en el formulario.',"Debe llenar los campos obligatorios");
+    }
+  }
+
   clean_fields(form: NgForm): void {
     form.reset();
-    this.datepicker ? this.datepicker.cleanDatePicker() : null;
+    this.datepicker ? this.datepicker.cleanDatePicker() : this.datepicker_edit ? this.datepicker_edit.cleanDatePicker() : null;
     this.photo_selected = false;
     this.src_image = ""; 
-    this.modalRegister.closeModal();
+    this.modalRegister_visible ? this.modalRegister.closeModal() : this.modalEdit_visible ? this.modalEdit.closeModal() : null;
   }
 
   delete_selection(){
@@ -161,11 +203,21 @@ export class SrpaUserHomeComponent implements OnInit {
     this.modalRegister_visible = true;
   }
 
+  open_modalEdit(id : string){
+    this.getOne_srpa_user(id);
+    this.modalEdit_visible = true;
+    this.photo_selected = true;
+  }
+
   close_modalView(event){
     this.modalView_visible = event;
   }
 
   close_modalRegister(event){
     this.modalRegister_visible = event;
+  }
+
+  close_modalEdit(event){
+    this.modalEdit_visible = event;
   }
 }
