@@ -15,8 +15,8 @@ const routes : Routes = [
     { path : "srpa-user" , component: SrpaUserHomeComponent, canActivate : [LoginGuard] },
     { path : "srpa-user/:id", component : SrpaUserDetailComponent, canActivate : [LoginGuard]},
     { path : "employee" , component : EmployeeHomeComponent, canActivate : [LoginGuard]}, 
-    { path : "" , pathMatch: "full", redirectTo : "/"},
-    { path : "**", pathMatch : "full" , redirectTo : "/"}
+    { path : "page-not-found", component : PageNotFoundComponent },
+    { path : "**", pathMatch : "full" , redirectTo : "page-not-found"}
 ]
 
 @NgModule({
