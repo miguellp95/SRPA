@@ -52,6 +52,7 @@ export class DatepickerComponent implements OnInit {
   }
 
   setDate(date: IModel):void{  
+    this.cleanDatePicker();
     this.model = date ? date : {}; 
   }
 

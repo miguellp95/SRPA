@@ -4,8 +4,9 @@ import { NgForm } from '@angular/forms';
 
 import { _srpa_user_ } from 'src/app/interfaces/srpa-user.interface';
 import { SrpaUserService } from 'src/app/services/srpa-user.service';
-import { ErrorMessageComponent } from '../../error-message/error-message.component';
+import { ShowMessageComponent } from '../../show-message/show-message.component';
 import { DatepickerComponent } from '../../datepicker/datepicker.component';
+import { MyModalComponent } from '../../my-modal/my-modal.component';
  
 @Component({
   selector: 'app-srpa-user-home',
@@ -13,28 +14,27 @@ import { DatepickerComponent } from '../../datepicker/datepicker.component';
   styleUrls: ['./srpa-user-home.component.css'],
 })
 export class SrpaUserHomeComponent implements OnInit {
-
+ 
+  @ViewChild('modalRegister') modalRegister : MyModalComponent;
   @ViewChild('usuario_srpa_form') srpa_user_form: NgForm;
-  @ViewChild('error_message_tag') error_message_tag : ErrorMessageComponent;
+  @ViewChild('message') message_tag : ShowMessageComponent;
   @ViewChild('datepicker') datepicker : DatepickerComponent;
 
-  usuarios_srpa: _srpa_user_[];
-  usuario_srpa_selected: _srpa_user_ = {
-    _id: '',
-    first_name: '',
-    last_name: '',
-    identification: '',
-    date_born: '',
-    address: '',
-    photo_path: '',
-  };
 
-  
-  show_image:boolean = false;
+  new_srpa_user : boolean = false;
+
+  usuarios_srpa: _srpa_user_[];
+  usuario_srpa_selected: _srpa_user_; 
+   
   src_image:string = "";
   selected_file: File = null;
+  photo_selected : boolean = false;
 
-  error_message : string;
+  modalView_visible : boolean  = false;
+  modalRegister_visible : boolean = false;
+
+  message : string;
+  title_message : string;
 
   constructor(
     private activated_route: ActivatedRoute,
@@ -49,7 +49,7 @@ export class SrpaUserHomeComponent implements OnInit {
   get_srpa_users() {
     this.user_srpa_service.get_all().subscribe(
       (res) => {
-        this.usuarios_srpa = res;
+        this.usuarios_srpa = res; 
       },
       (error) => this.handlerError(error.error)
     );
@@ -67,14 +67,15 @@ export class SrpaUserHomeComponent implements OnInit {
     }
   }
 
-  add_srpa_user(form: NgForm) {
-
+  add_srpa_user(form: NgForm) { 
     this.usuario_srpa_selected = form.value;
     this.usuario_srpa_selected.photo_path = this.src_image;
-    this.usuario_srpa_selected.date_born = this.getDate();
+    this.usuario_srpa_selected.date_born = this.getDate(); 
 
+    console.log(this.usuario_srpa_selected);
+    
     if(this.usuario_srpa_selected && this.usuario_srpa_selected.photo_path){ 
-      this.user_srpa_service.post(form.value, this.selected_file).subscribe(
+      this.user_srpa_service.post(this.usuario_srpa_selected, this.selected_file).subscribe(
         (res) => {
           this.showMessage("Guardado exitoso!", "El usuario SRPA ha sido creado exitosamente.");
           this.get_srpa_users();
@@ -102,35 +103,39 @@ export class SrpaUserHomeComponent implements OnInit {
   clean_fields(form: NgForm): void {
     form.reset();
     this.datepicker ? this.datepicker.cleanDatePicker() : null;
-    this.show_image = false; 
+    this.photo_selected = false;
+    this.src_image = ""; 
+    this.modalRegister.closeModal();
   }
 
   delete_selection(){
     this.selected_file = null;
-    this.show_image = false;
+    this.src_image = "";
+    this.photo_selected = false;
   }
 
   onSelectedFile(file : FileList){
     
-    this.show_image = true;    
+    this.photo_selected = true;    
     this.selected_file = file.item(0); 
     const reader = new FileReader();    
     reader.onload = (event : any) => {
-      this.src_image = event.target.result;      
+      this.src_image = event.target.result;
+      this.photo_selected = true;
     }
     reader.readAsDataURL(this.selected_file);  
   } 
 
   handlerError(error){
-    this.error_message_tag.title = "Error";
-    this.error_message = error;
-    this.error_message_tag.openModal();
+    this.message_tag.title = "Error";
+    this.message_tag.message = error;
+    this.message_tag.openModal();
   }
 
   showMessage(title:string, message:string){
-    this.error_message_tag.title = title;
-    this.error_message = message;
-    this.error_message_tag.openModal();
+    this.message_tag.title = title;
+    this.message_tag.message = message;
+    this.message_tag.openModal();
   }
 
   getDate():any{
@@ -145,5 +150,22 @@ export class SrpaUserHomeComponent implements OnInit {
   parseDate(date : string){
     const newdate = date.split('-').map(x => parseInt(x));
     return { year : newdate[0], month : newdate[1], day: newdate[2]};
+  }
+
+  open_modalView(id:string){
+    this.modalView_visible = true;
+    this.getOne_srpa_user(id);
+  }
+
+  open_modalRegister(){
+    this.modalRegister_visible = true;
+  }
+
+  close_modalView(event){
+    this.modalView_visible = event;
+  }
+
+  close_modalRegister(event){
+    this.modalRegister_visible = event;
   }
 }

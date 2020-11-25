@@ -1,18 +1,18 @@
-ul > li{
-    margin-left: 50px; 
+ul>li {
+    margin-left: 50px;
 }
 
-li > a {
+li>a {
     color: #fff;
     font-size: 1.3rem;
 }
 
-.dropdown-menu {
-    width: 100%; 
+li>a:hover {
+    color: #014110;
+    text-decoration: underline;
 }
 
-.dropdown-menu > a:hover{
-    color: #fff;
-    background-color: #2f8223;
-    padding: 3px 2px;
+.link-active {
+    color: #014110 !important;
+    text-decoration: underline;
 }

@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 
 import { _srpa_user_ } from 'src/app/interfaces/srpa-user.interface';
 import { SrpaUserService } from 'src/app/services/srpa-user.service';
-import { ErrorMessageComponent } from '../../error-message/error-message.component';
+import { ShowMessageComponent } from '../../show-message/show-message.component';
 import { DatepickerComponent } from '../../datepicker/datepicker.component'; 
 
 @Component({
@@ -14,25 +14,19 @@ import { DatepickerComponent } from '../../datepicker/datepicker.component';
 })
 export class SrpaUserDetailComponent implements OnInit {
 
-  @ViewChild('error_message_tag') error_message_tag : ErrorMessageComponent;
+  @ViewChild('message') message_tag : ShowMessageComponent;
   @ViewChild('datepicker') datepicker : DatepickerComponent;
 
   usuario_srpa_id = "";
   usuarios_srpa: _srpa_user_[];
-  usuario_srpa_selected: _srpa_user_ = {
-    first_name: '',
-    last_name: '',
-    identification: '',
-    date_born: '',
-    address: '',
-    photo_path: '',
-  };
+  usuario_srpa_selected: _srpa_user_;
   
   show_image:boolean = true;
   src_image:string = "";
   selected_file: File = null;
 
-  error_message : string;
+  message : string;
+  title_message : string;
 
   constructor(
     private router: Router,
@@ -111,9 +105,9 @@ export class SrpaUserDetailComponent implements OnInit {
   } 
 
   showMessage(title:string, message:string):void{
-    this.error_message_tag.title = title;
-    this.error_message = message;
-    this.error_message_tag.openModal();
+    this.message_tag.title = title;
+    this.message_tag.message = message;
+    this.message_tag.openModal();
   }
 
   getDate(){

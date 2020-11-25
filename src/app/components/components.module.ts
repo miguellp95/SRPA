@@ -21,7 +21,7 @@ import { FooterComponent } from './footer/footer.component';
 
 //Component tools
 //Error Message
-import { ErrorMessageComponent } from './error-message/error-message.component';
+import { ShowMessageComponent } from './show-message/show-message.component';
 //Modal
 import { ModalComponent, ModalModule } from 'ngb-modal';
 //DatePicker
@@ -31,21 +31,23 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 import { SrpaUserHomeComponent } from './srpa-user/srpa-user-home/srpa-user-home.component';
 import { SrpaUserDetailComponent } from './srpa-user/srpa-user-detail/srpa-user-detail.component';
 //Employee
-import { EmployeeHomeComponent } from './employee/employee-home/employeehome.component';
-import { EmployeeRegisterComponent } from './employee/employee-register/employee-register.component'; 
-import { MyModalComponent } from './my-modal/my-modal.component'; 
+import { EmployeeHomeComponent } from './employee/employeehome.component'; 
+import { MyModalComponent } from './my-modal/my-modal.component';
+import { HistoriesHomeComponent } from './histories/histories-home/histories-home.component';
+import { EvolPedagogicaComponent } from './histories/evol-pedagogica/evol-pedagogica.component'; 
 
 @NgModule({
   declarations: [
     SrpaUserHomeComponent,
     SrpaUserDetailComponent,
     NavigationComponent,
-    ErrorMessageComponent,
+    ShowMessageComponent,
     DatepickerComponent,
     FooterComponent,
-    EmployeeHomeComponent, 
-    EmployeeRegisterComponent, 
-    MyModalComponent
+    EmployeeHomeComponent,  
+    MyModalComponent, 
+    HistoriesHomeComponent, 
+    EvolPedagogicaComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +59,7 @@ import { MyModalComponent } from './my-modal/my-modal.component';
   ],
   exports: [
     NavigationComponent, 
-    ErrorMessageComponent, 
+    ShowMessageComponent, 
     DatepickerComponent, 
     FooterComponent
   ],

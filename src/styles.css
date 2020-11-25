@@ -43,6 +43,10 @@ body {
     position: fixed;
 }
 
+.text-green {
+    color: #2f8223;
+}
+
 .trim-info {
     max-width: 200px;
     display: inline-block;
@@ -56,4 +60,8 @@ body {
 .title-module {
     border-radius: 5px;
     padding: 10px 0px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }

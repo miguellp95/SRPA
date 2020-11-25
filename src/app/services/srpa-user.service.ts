@@ -13,14 +13,7 @@ export class SrpaUserService {
   URI_API = '/api/srpa';
 
   usuarios_srpa : _srpa_user_[];
-  usuario_srpa_selected : _srpa_user_ = {
-    first_name : "",
-    last_name : "",
-    identification : "",
-    date_born : "",
-    address : "",
-    photo_path : ""
-  };
+  usuario_srpa_selected : _srpa_user_ ;
 
   constructor(private http:HttpClient) { }
 
@@ -34,7 +27,16 @@ export class SrpaUserService {
     fd.append("last_name", data.last_name);
     fd.append("identification", data.identification);
     fd.append("date_born", data.date_born);
+    fd.append("age", data.age.toString());
+    fd.append("gender", data.gender);
+    fd.append("scholar", data.scholar);
+    fd.append("occupation", data.occupation);
     fd.append("address", data.address);
+    fd.append("phone_number", data.phone_number);
+    fd.append("parent_1", data.parent_1);
+    fd.append("parent_2", data.parent_2);
+    fd.append("health", data.health);
+    fd.append("attention_mode", data.attention_mode);
     fd.append("photo", photo); 
     return this.http.post(this.URI_API + '/srpa-user', fd);
   }
@@ -53,7 +55,16 @@ export class SrpaUserService {
     fd.append("last_name", data.last_name);
     fd.append("identification", data.identification);
     fd.append("date_born", data.date_born);
-    fd.append("address", data.address); 
+    fd.append("age", data.age.toString());
+    fd.append("gender", data.gender);
+    fd.append("scholar", data.scholar);
+    fd.append("occupation", data.occupation);
+    fd.append("address", data.address);
+    fd.append("phone_number", data.phone_number);
+    fd.append("parent_1", data.parent_1);
+    fd.append("parent_2", data.parent_2);
+    fd.append("health", data.health);
+    fd.append("attention_mode", data.attention_mode); 
     fd.append("photo", photo); 
     return this.http.put(this.URI_API + '/srpa-user/' + id, fd);
   }
