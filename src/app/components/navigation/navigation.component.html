@@ -7,18 +7,30 @@
             <!-- <li class="nav-item">
                 <a class="nav-link" routerLink="/" routerLinkActive="link-active">Inicio</a>
             </li> -->
-            <li class="nav-item">
-                <a class="nav-link" routerLink="srpa-user" routerLinkActive="link-active">Usuarios SRPA</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="employee" routerLinkActive="link-active">Funcionarios</a>
-            </li>
+
+            <!-- Only used when we need a user but we don't have any created. -->
+            <!-- <li class="nav-item">
+                <a class="nav-link" routerLink="access" routerLinkActive="link-active">Acceso</a>
+            </li> -->
+
+            <!-- if any user is logged in  -->
             <ng-container *ngIf="!authentication.loggedIn(); else logOut">
                 <li class="nav-item">
                     <a class="nav-link" routerLink="login" routerLinkActive="link-active">Ingresar <i class="fas fa-sign-in-alt"></i></a>
                 </li>
             </ng-container>
+
+            <!-- if user is logged in -->
             <ng-template #logOut>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="srpa-user" routerLinkActive="link-active">Usuarios SRPA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="employee" routerLinkActive="link-active">Funcionarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="access" routerLinkActive="link-active">Acceso</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link cursor-pointer" (click)="authentication.logOut()">Salir <i class="fas fa-sign-out-alt"></i></a>
                 </li>
